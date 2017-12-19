@@ -15,6 +15,8 @@ public class ChatItemBean {
 
     private String userId;
 
+    private boolean open;
+
     public ChatItemBean() {
 
     }
@@ -65,5 +67,25 @@ public class ChatItemBean {
     public ChatItemBean setUserId(String userId) {
         this.userId = userId;
         return this;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatItemBean{" +
+                "avatarPath='" + avatarPath + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", time='" + time + '\'' +
+                ", msg='" + msg + '\'' +
+                ", userId='" + userId + '\'' +
+                ", open=" + open +
+                '}';
     }
 }

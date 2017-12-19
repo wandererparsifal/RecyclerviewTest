@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
 
         public Context context;
 
+        public LinearLayout mLayoutButtons;
+
         public ImageView mRivAvatar;
 
         public TextView mTvNickname;
@@ -51,10 +54,11 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         public ChatItemViewHolder(View itemView, Context context) {
             super(itemView);
             this.context = context;
-            this.mRivAvatar = (ImageView) itemView.findViewById(R.id.icon);
-            this.mTvNickname = (TextView) itemView.findViewById(R.id.textView2);
-            this.mTvTime = (TextView) itemView.findViewById(R.id.textView3);
-            this.mTvMsg = (TextView) itemView.findViewById(R.id.textView);
+            this.mRivAvatar = itemView.findViewById(R.id.icon);
+            this.mLayoutButtons = itemView.findViewById(R.id.layout_buttons);
+            this.mTvNickname = itemView.findViewById(R.id.textView2);
+            this.mTvTime = itemView.findViewById(R.id.textView3);
+            this.mTvMsg = itemView.findViewById(R.id.textView);
         }
     }
 
@@ -70,18 +74,17 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
         holder.mTvMsg.setText(chatItemBean.getMsg());
         holder.mTvTime.setText(chatItemBean.getTime());
         holder.mTvNickname.setText(chatItemBean.getNickname());
+        holder.mLayoutButtons.setVisibility(chatItemBean.isOpen() ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void onBindViewHolder(ChatItemViewHolder holder, int position, List<Object> payloads) {
-//        Log.e("test", "onBindViewHolder onBindViewHolder");
         if (payloads.isEmpty()) {
-//            Log.e("test", "onBindViewHolder 1");
             onBindViewHolder(holder, position);
         } else {
-//            Log.e("test", "onBindViewHolder 2");
             Bundle bundle = (Bundle) payloads.get(0);
             for (String key : bundle.keySet()) {
+                Log.e("test", "key " + key);
                 switch (key) {
                     case "avatarPath":
                         break;
@@ -93,6 +96,11 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                         break;
                     case "msg":
                         holder.mTvMsg.setText((CharSequence) bundle.get(key));
+                        break;
+                    case "open":
+                        holder.mLayoutButtons.setVisibility((boolean) bundle.get(key) ? View.VISIBLE : View.GONE);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -116,6 +124,7 @@ public class ChatRecyclerAdapter extends RecyclerView.Adapter<ChatRecyclerAdapte
                 bean.setAvatarPath(newChats.get(i).getAvatarPath());
                 bean.setMsg(newChats.get(i).getMsg());
                 bean.setTime(newChats.get(i).getTime());
+                bean.setOpen(newChats.get(i).isOpen());
                 chats.add(bean);
             }
         }

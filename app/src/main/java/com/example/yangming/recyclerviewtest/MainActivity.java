@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mRv = findViewById(R.id.rv);
         mRv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        mRv.setItemAnimator(new SlideItemAnimator());
+//        mRv.setItemAnimator(new FadeItemAnimator());
 
         chats = new ArrayList<>();
         chats.add(new ChatItemBean("aa", "11", "22", "33").setUserId(UUID.randomUUID().toString()));
@@ -58,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                chats.get(0).setMsg(UUID.randomUUID().toString());
-
+                ChatItemBean chatItemBean = chats.get(1);
+                chatItemBean.setMsg(UUID.randomUUID().toString());
+                chatItemBean.setOpen(!chatItemBean.isOpen());
+                Log.e("test", "chatItemBean " + chatItemBean);
                 updateChats();
             }
         });

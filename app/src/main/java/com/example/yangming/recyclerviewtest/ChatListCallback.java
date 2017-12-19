@@ -3,7 +3,6 @@ package com.example.yangming.recyclerviewtest;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -43,13 +42,10 @@ public class ChatListCallback extends DiffUtil.Callback {
         String newId = old_chats.get(oldItemPosition).getUserId();
         String oldId = new_chats.get(newItemPosition).getUserId();
         if (oldId == null || newId == null) {
-            Log.e("test", "areItemsTheSame false");
             return false;
         } else if (oldId.trim().equals("") || newId.trim().equals("") || (!oldId.equals(newId))) {
-            Log.e("test", "areItemsTheSame false");
             return false;
         } else {
-            Log.e("test", "areItemsTheSame true");
             return true;
         }
     }
@@ -71,15 +67,16 @@ public class ChatListCallback extends DiffUtil.Callback {
         String oldTime = old_chats.get(oldItemPosition).getTime();
         String newMsg = new_chats.get(newItemPosition).getMsg();
         String oldMsg = old_chats.get(oldItemPosition).getMsg();
+        boolean newOpen = new_chats.get(newItemPosition).isOpen();
+        boolean oldOpen = old_chats.get(newItemPosition).isOpen();
 
         if ((newAvatarPath == null && oldAvatarPath != null) || (oldAvatarPath == null && newAvatarPath != null) || (oldAvatarPath != null && !oldAvatarPath.equals(newAvatarPath)) ||
                 (newNickname == null && oldNickname != null) || (oldNickname == null && newNickname != null) || (oldNickname != null && !oldNickname.equals(newNickname)) ||
                 (newTime == null && oldTime != null) || (oldTime == null && newTime != null) || (oldTime != null && !oldTime.equals(newTime)) ||
-                (newMsg == null && oldMsg != null) || (oldMsg == null && newMsg != null) || (oldMsg != null && !oldMsg.equals(newMsg))) {
-            Log.e("test", "areContentsTheSame false");
+                (newMsg == null && oldMsg != null) || (oldMsg == null && newMsg != null) || (oldMsg != null && !oldMsg.equals(newMsg)) ||
+                (newOpen != oldOpen)) {
             return false;
         }
-        Log.e("test", "areContentsTheSame true");
         return true;
     }
 
@@ -94,20 +91,26 @@ public class ChatListCallback extends DiffUtil.Callback {
         String oldTime = old_chats.get(oldItemPosition).getTime();
         String newMsg = new_chats.get(newItemPosition).getMsg();
         String oldMsg = old_chats.get(oldItemPosition).getMsg();
+        boolean newOpen = new_chats.get(newItemPosition).isOpen();
+        boolean oldOpen = old_chats.get(newItemPosition).isOpen();
 
         Bundle bundle = new Bundle();
 
-        Log.e("test", "oldMsg " + oldMsg);
-        Log.e("test", "newMsg " + newMsg);
-
-        if ((newAvatarPath == null && oldAvatarPath != null) || (newAvatarPath != null && oldAvatarPath == null) || (oldAvatarPath != null && !oldAvatarPath.equals(newAvatarPath)))
+        if ((newAvatarPath == null && oldAvatarPath != null) || (newAvatarPath != null && oldAvatarPath == null) || (oldAvatarPath != null && !oldAvatarPath.equals(newAvatarPath))) {
             bundle.putString("avatarPath", newAvatarPath);
-        if ((newNickname == null && oldNickname != null) || (oldNickname == null && newNickname != null) || (oldNickname != null && !oldNickname.equals(newNickname)))
+        }
+        if ((newNickname == null && oldNickname != null) || (oldNickname == null && newNickname != null) || (oldNickname != null && !oldNickname.equals(newNickname))) {
             bundle.putString("nickname", newNickname);
-        if ((newTime == null && oldTime != null) || (oldTime == null && newTime != null) || (oldTime != null && !oldTime.equals(newTime)))
+        }
+        if ((newTime == null && oldTime != null) || (oldTime == null && newTime != null) || (oldTime != null && !oldTime.equals(newTime))) {
             bundle.putString("time", newTime);
-        if ((newMsg == null && oldMsg != null) || (oldMsg == null && newMsg != null) || (oldMsg != null && !oldMsg.equals(newMsg)))
+        }
+        if ((newMsg == null && oldMsg != null) || (oldMsg == null && newMsg != null) || (oldMsg != null && !oldMsg.equals(newMsg))) {
             bundle.putString("msg", newMsg);
+        }
+        if (newOpen != oldOpen) {
+            bundle.putBoolean("open", newOpen);
+        }
         if (bundle.size() == 0) {
             return null;
         }
