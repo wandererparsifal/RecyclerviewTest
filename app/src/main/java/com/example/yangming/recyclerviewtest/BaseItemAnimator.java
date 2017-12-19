@@ -483,25 +483,25 @@ public abstract class BaseItemAnimator extends SimpleItemAnimator {
         // animations should be ended by the cancel above.
         //noinspection PointlessBooleanExpression,ConstantConditions
         if (mRemoveAnimations.remove(item) && DEBUG) {
-            throw new IllegalStateException("after animation is cancelled, item should not be in "
+            throw new IllegalStateException("after animation is cancelled, chat_item should not be in "
                     + "mRemoveAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
         if (mAddAnimations.remove(item) && DEBUG) {
-            throw new IllegalStateException("after animation is cancelled, item should not be in "
+            throw new IllegalStateException("after animation is cancelled, chat_item should not be in "
                     + "mAddAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
         if (mChangeAnimations.remove(item) && DEBUG) {
-            throw new IllegalStateException("after animation is cancelled, item should not be in "
+            throw new IllegalStateException("after animation is cancelled, chat_item should not be in "
                     + "mChangeAnimations list");
         }
 
         //noinspection PointlessBooleanExpression,ConstantConditions
         if (mMoveAnimations.remove(item) && DEBUG) {
-            throw new IllegalStateException("after animation is cancelled, item should not be in "
+            throw new IllegalStateException("after animation is cancelled, chat_item should not be in "
                     + "mMoveAnimations list");
         }
         dispatchFinishedWhenDone();
